@@ -55,12 +55,12 @@ public class AtencionCommandServiceImpl implements AtencionCommandService {
         return Optional.of(atencion);
     }
 
-    // Handle deleting (canceling) an Atencion (appointment)
+    // Handle deleting (removing) an Atencion (appointment) from DB
     @Override
     public void handle(DeleteAtencionCommand command) {
-        // Retrieve the Atencion to be deleted and mark it as canceled
-        var atencion = atencionRepository.findById(command.atencionId()).orElseThrow();
-        atencion.cancelar(); // mark as canceled
-        atencionRepository.save(atencion); // Save the updated status
+        if (!atencionRepository.existsById(command.atencionId())) {
+            throw new IllegalArgumentException("La atención con ID " + command.atencionId() + " no existe");
+        }
+        atencionRepository.deleteById(command.atencionId());
     }
 }
