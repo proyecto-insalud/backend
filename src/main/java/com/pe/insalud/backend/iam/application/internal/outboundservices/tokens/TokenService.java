@@ -1,4 +1,4 @@
-package com.insalud.backend.iam.application.internal.outboundservices.tokens;
+package com.pe.insalud.backend.iam.application.internal.outboundservices.tokens;
 
 /**
  * Service for generating and validating tokens.
