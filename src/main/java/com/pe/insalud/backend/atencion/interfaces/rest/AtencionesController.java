@@ -76,8 +76,9 @@ public class AtencionesController {
     // Cancel an atención (delete)
     @DeleteMapping("/{id}")
     @Operation(summary = "Cancel an atención (only ADMIN)")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public List<AtencionResource> delete(@PathVariable Long id) {
         commandService.handle(new DeleteAtencionCommand(id));
-        return ResponseEntity.noContent().build();
+        return queryService.handle(new GetAllAtencionesQuery())
+                .stream().map(AtencionResourceFromEntityAssembler::toResourceFromEntity).toList();
     }
 }
